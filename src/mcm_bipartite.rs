@@ -39,7 +39,7 @@ fn partition_bigraph(graph: Vec<Vec<u8>>) -> Option<[Vec<u8>; 2]> {
 
     // Start the BFS from each vertex to make sure
     // that all connected components of the graph are processed.
-    for (i, derp) in graph.iter().enumerate() {
+    for i in 0..graph.len() {
         println!("i: {}", i);
 
         if colors[i] == 0 {
