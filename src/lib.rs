@@ -17,18 +17,18 @@ mod tests {
             asert_partitions_match(expected, result);
         }
 
-        fn vec_to_set(vec: Vec<u8>) -> HashSet<u8> {
-            let mut victim = vec.clone();
-            let x: HashSet<u8> = victim.drain(..).collect(); // dedup
-            return x;
+        fn hashset(data: &[u8]) -> HashSet<u8> {
+            HashSet::from_iter(data.iter().cloned())
         }
 
         fn asert_partitions_match(expected: [Vec<u8>; 2], actual: [Vec<u8>; 2]) {
-            let e0 = vec_to_set(expected[0].clone());
-            let e1 = vec_to_set(expected[1].clone());
-            let a0 = vec_to_set(actual[0].clone());
-            let a1 = vec_to_set(actual[1].clone());
-            assert!(a0 == e0 || a0 == e1 && a1 == e1 || a1 == e0);
+            let e: Vec<HashSet<u8>> = expected.iter().map(|i| hashset(&i)).collect();
+            for i in actual.iter() {
+                assert!(
+                    e.contains(&hashset(&i)),
+                    format!("\nExpected: {:?}\n  Actual: {:?}\n", expected, actual)
+                );
+            }
         }
     }
 
