@@ -10,6 +10,14 @@ mod tests {
         use partition_bigraph::partition_bigraph;
 
         #[test]
+        fn empty_graph() {
+            let graph: Vec<Vec<u8>> = vec![];
+            let result = partition_bigraph(graph).unwrap();
+            let expected: [Vec<u8>; 2] = [vec![], vec![]];
+            asert_partitions_match(expected, result);
+        }
+
+        #[test]
         fn two_vertexes_one_edge() {
             let graph: Vec<Vec<u8>> = vec![vec![1], vec![0]];
             let result = partition_bigraph(graph).unwrap();
